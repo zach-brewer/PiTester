@@ -16,6 +16,10 @@ import busio
 import adafruit_character_lcd.character_lcd_rgb_i2c as character_lcd
 from cv2 import aruco
 
+ARD_ADDR = 8
+arduinoI2C = SMBus(1)
+
+
 lcd_columns = 16
 lcd_rows = 2
 i2c = busio.I2C(board.SCL, board.SDA)
@@ -56,7 +60,7 @@ while True:
         
     else:
         #cv2.putText(overlay, "No ArUco markers found", (10,30), cv2.FONT_HERSHEY_SIMPLEX, 0.7, (0,0,255), 2)
-        lcdChar = -1;
+        lcdChar = -1
         
     cv2.imshow("Aruco Detection", overlay)
 
@@ -69,6 +73,8 @@ while True:
         if display == -1:
             lcd.message = "No Aruco's \nDetected"
         else:
+            offset = 1
+            arduinoI2C.write_byte_data(ARD_ADDR, offset, lcdChar)
             lcd.message = "Goal Position: \n" + str(left_wheel) + " " + str(right_wheel)
     
 lcd.clear()
