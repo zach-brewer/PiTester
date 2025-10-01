@@ -8,6 +8,7 @@ The code also outputs the id of any aruco markers found on the LCD screen, or ou
 Code should be run on Raspberry Pi Model 4 using Python 3.11.2
 
 '''
+from smbus2 import SMBus
 from time import sleep
 import numpy as np
 import cv2
@@ -61,7 +62,9 @@ while True:
     else:
         #cv2.putText(overlay, "No ArUco markers found", (10,30), cv2.FONT_HERSHEY_SIMPLEX, 0.7, (0,0,255), 2)
         lcdChar = -1
-        
+
+    cv2.line(overlay, (0,240), (700,240), (0,0,0), 5)
+    cv2.line(overlay, (315,0), (315,500), (0,0,0), 5)
     cv2.imshow("Aruco Detection", overlay)
 
     if cv2.waitKey(1) & 0xFF == ord('q'):
